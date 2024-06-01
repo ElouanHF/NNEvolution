@@ -19,7 +19,7 @@ class WindowManager:
         self.window.set_icon(icon1, icon2)
 
         # Background Shapes
-        self.field_sq_size = 200
+        self.scale_factor = 1.0
         self.batch = pyglet.graphics.Batch()
         back_sq_conf = {
             "x": -5000,
@@ -29,6 +29,7 @@ class WindowManager:
             "color": (80, 80, 80),
             "batch": self.batch
         }
+        self.field_sq_size = 500
         field_sq_conf = {
             "x": self.window.width // 2 - self.field_sq_size // 2,
             "y": self.window.height // 2 - self.field_sq_size // 2,
@@ -55,3 +56,12 @@ class WindowManager:
             # Re-center the square
             self.field_sq.x = width // 2 - self.field_sq_size // 2
             self.field_sq.y = height // 2 - self.field_sq_size // 2
+
+        # Zooming in not currently implemented
+        @self.window.event
+        def on_mouse_scroll(x, y, scroll_x, scroll_y):
+            # Update the scale factor based on the scroll direction
+            if scroll_y > 0:
+                self.scale_factor *= 1.1  # Zoom in
+            elif scroll_y < 0:
+                self.scale_factor /= 1.1  # Zoom out
